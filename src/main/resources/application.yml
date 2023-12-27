@@ -1,0 +1,30 @@
+server:
+  port: 8103
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: api_route
+          uri: http://localhost:8102
+          predicates:
+            - Path=/api/**
+          filters:
+            - DynamicRoutingFilter
+
+dubbo:
+  application:
+    qosPort: 22223
+    name: dubbo-springboot-demo-provider
+  protocol:
+    name: dubbo
+    port: -1
+  registry:
+    id: nacos-registry
+    address: nacos://localhost:8848
+
+logging:
+  level:
+    org:
+      springframework:
+        cloud:
+          gateway: trace
